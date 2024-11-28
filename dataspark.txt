@@ -1,0 +1,83 @@
+query-1
+Total Square Metres of Stores by Country
+
+SELECT 
+    country, 
+    SUM(square_meters) AS total_square_meters
+FROM combined_table
+GROUP BY country
+ORDER BY total_square_meters DESC;
+
+
+query-2
+Orders Per Month
+
+SELECT 
+    DATE_FORMAT(order_date, '%Y-%m') AS order_month, 
+    COUNT(DISTINCT order_number) AS total_orders
+FROM combined_table
+GROUP BY order_month
+ORDER BY order_month;
+
+query-3
+Exchange Rate Trends
+
+SELECT 
+    date, 
+    currency, 
+    AVG(exchange) AS avg_exchange_rate
+FROM combined_table
+GROUP BY date, currency
+ORDER BY date;
+
+query-4
+Store Open Dates
+SELECT 
+    store_key, 
+    open_date
+FROM combined_table
+ORDER BY open_date;
+
+query-5
+Get the total quantity sold in USD currency
+SELECT SUM(quantity) AS total_quantity_usd
+FROM combined_table
+WHERE currency_code = 'USD';
+
+
+query-6
+Total Sales Quantity by Year
+SELECT YEAR(order_date) AS year, SUM(quantity) AS total_sales
+FROM combined_table
+GROUP BY YEAR(order_date)
+ORDER BY year ASC;
+
+query-7
+Identify Countries with Stores Opened After 2015
+SELECT DISTINCT country
+FROM combined_table
+WHERE open_date > '2015-01-01';
+
+query-8
+Find Orders with Multiple Line Items
+
+SELECT order_number, COUNT(line_item) AS total_line_items
+FROM combined_table
+GROUP BY order_number
+HAVING total_line_items > 1;
+
+
+query-9
+Fetch the Most Recent Order for Each Store
+SELECT store_key, MAX(order_date) AS most_recent_order_date
+FROM combined_table
+GROUP BY store_key;
+
+query-10
+sum of total_unit_cost_usd by product_name
+SELECT product_name, 
+       SUM(total_unit_cost_usd) AS total_cost_usd
+FROM combined_table
+GROUP BY product_name
+ORDER BY total_cost_usd DESC;
+
